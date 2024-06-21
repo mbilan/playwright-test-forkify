@@ -1,4 +1,4 @@
-import { PageHolder } from './pageHolder';
+import { PageHolder } from './abstractClasses';
 
 export class SearchForm extends PageHolder {
   private searchButton = this.page.locator('.btn search__btn');
