@@ -3,16 +3,18 @@ import { AppPage } from './abstractClasses';
 import { Ingredient, Recipe } from './../../api/recipe';
 
 export class NewRecipeForm extends AppPage {
-  private titleInput = this.page.locator('[name="title"]');
-  private sourceUrlInput = this.page.locator('[name="sourceUrl"]');
-  private imageUrlInput = this.page.getByPlaceholder('Recipe image url');
-  private publisherInput = this.page.getByPlaceholder('Publisher name');
-  private cookingTimeInput = this.page.getByPlaceholder('Cooking time');
-  private servingsInput = this.page.getByPlaceholder('Servings number');
-  private uploadBtn = this.page.locator('.upload__btn');
-  public message = this.page.locator('.add-recipe-window .message');
+  private inputEl = (nameArg: string) => this.page.locator(`[name="${nameArg}"]`);
+  public validationErrorInput = (nameArg: string) => this.page.locator(`[name="${nameArg}"]:invalid`);
 
-  public validationErrorIngrInput = this.page.locator(`[name="ingredient-1"]:invalid`);
+  private titleInput = this.inputEl('title');
+  private sourceUrlInput = this.inputEl('sourceUrl');
+  private imageUrlInput = this.inputEl('image');
+  private publisherInput = this.inputEl('publisher');
+  private cookingTimeInput = this.inputEl('cookingTime');
+  private servingsInput = this.inputEl('servings');
+  private uploadBtn = this.page.locator('.upload__btn');
+
+  public message = this.page.locator('.add-recipe-window .message');
 
   private ingredientInput(index: number): Locator {
     return this.page.locator(`[name="ingredient-${index}"]`);
@@ -41,12 +43,30 @@ export class NewRecipeForm extends AppPage {
     await this.servingsInput.fill(recipe.servings.toString());
   }
 
+  async fillRecipeDataExcept(recipe: Recipe, exceptName: string) {
+    await this.fillRecipeData(recipe);
+    await this.page.locator(`[name="${exceptName}"]`).clear();
+  }
+
+  async clearRecipeDataInputs() {
+    await this.titleInput.clear();
+    await this.sourceUrlInput.clear();
+    await this.imageUrlInput.clear();
+    await this.publisherInput.clear();
+    await this.cookingTimeInput.clear();
+    await this.servingsInput.clear();
+  }
+
   async fillIngredients(recipe: Recipe) {
     let index = 1;
     for (const ing of recipe.ingredients) {
       await this.ingredientInput(index).fill(this.formatIngredient(ing));
       index++;
     }
+  }
+
+  async closeModal() {
+    await this.page.locator('.btn--close-modal').click();
   }
 
   private formatIngredient(ing: Ingredient): string {
