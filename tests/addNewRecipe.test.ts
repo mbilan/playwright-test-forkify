@@ -1,5 +1,5 @@
-import { buildRecipe, Recipe } from '../app/api/recipe';
-import { test } from './../app/fixtures/fixture';
+import { buildRecipe } from '../app/api/recipe';
+import { test } from '../app/fixtures/fixture';
 import { expect } from '@playwright/test';
 
 const successMessage = 'Recipe was successfully uploaded !';

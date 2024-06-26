@@ -14,6 +14,10 @@ export interface Ingredient {
   description: string;
 }
 
+export interface RecipeList {
+  recipes: Recipe[];
+}
+
 export const buildRecipe = function (): Recipe {
   return {
     publisher: 'Television Food Network',
