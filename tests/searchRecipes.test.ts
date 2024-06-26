@@ -53,7 +53,7 @@ test.describe('Search recipes by query', () => {
     }
 
     // navigation from last page to first
-    for (let page = pageCount; page <= 2; page--) {
+    for (let page = pageCount; page >= 2; page--) {
       // navigate to next page
       await app.paginationBlock.navigateToPreviousPage();
       await app.resultsView.waitForSpinnerDissapper();
