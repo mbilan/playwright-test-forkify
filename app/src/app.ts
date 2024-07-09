@@ -6,6 +6,7 @@ import { NewRecipeForm } from './components/newRecipeForm';
 import { ResultsView } from './components/resultsView';
 import { API } from '../api/api';
 import { Pagination } from './components/pagination';
+import { step } from '../decorators/step';
 
 export class Application extends AppPage {
   public API = new API(this.page);
@@ -17,7 +18,8 @@ export class Application extends AppPage {
   public resultsView = new ResultsView(this.page);
   public paginationBlock = new Pagination(this.page);
 
-  async openAddNewRecipe() {
+  @step
+  async clickOnAddNewRecipe() {
     await this.headers.navigateToAddRecipe();
     await this.page.waitForLoadState();
   }
