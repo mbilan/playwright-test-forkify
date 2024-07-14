@@ -25,8 +25,10 @@ test.describe(
       await expect(app.recipeView.title).toHaveText(recipe.title);
 
       const id = app.extractIdFromUrl();
-      const recipeFromAPI = await app.API.getRecipe(id);
-      expect(recipeFromAPI).toEqual(expect.objectContaining({ ...recipe }));
+      await test.step('Expect API response has the same body as we post', async () => {
+        const recipeFromAPI = await app.API.getRecipe(id);
+        expect(recipeFromAPI).toEqual(expect.objectContaining({ ...recipe }));
+      });
     });
 
     test('At least one ingredient is required', async ({ app }) => {
